@@ -468,13 +468,50 @@ dom.entryOverlay.addEventListener("click", (e) => {
   if (e.target === dom.entryOverlay) closeEntryPanel();
 });
 
+// Se scrivi la voce di OGGI e il promemoria è attivo, cancella solo
+// l'occorrenza di stasera (la serie ricorrente resta intatta per i giorni
+// successivi). Se non scrivi nulla, il promemoria delle 23:00 parte normale.
+async function cancelTodayReminderIfNeeded(dateStr) {
+  const todayStr = dateToStr(new Date());
+  if (dateStr !== todayStr) return;
+  if (localStorage.getItem(LS_REMINDER_ENABLED) !== "1") return;
+  const reminderEventId = localStorage.getItem(LS_REMINDER_EVENT_ID);
+  if (!reminderEventId) return;
+
+  try {
+    const now = new Date();
+    const dayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+    const dayEnd = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+    const params = new URLSearchParams({
+      timeMin: dayStart.toISOString(),
+      timeMax: dayEnd.toISOString(),
+      maxResults: "5",
+    });
+    const data = await apiFetch(
+      `/calendars/${encodeURIComponent(state.calendarId)}/events/${reminderEventId}/instances?${params.toString()}`
+    );
+    const instance = (data.items || [])[0];
+    if (instance && instance.status !== "cancelled") {
+      await apiFetch(`/calendars/${encodeURIComponent(state.calendarId)}/events/${instance.id}`, {
+        method: "DELETE",
+      });
+    }
+  } catch (e) {
+    // Non blocca il salvataggio della voce se questo fallisce: al peggio
+    // stasera arriva un promemoria "di troppo".
+    console.error("Impossibile annullare il promemoria di oggi:", e);
+  }
+}
+
 dom.saveEntryBtn.addEventListener("click", async () => {
   const text = dom.entryText.value.trim();
   if (!text) { showToast("Scrivi qualcosa prima di salvare", true); return; }
   dom.saveEntryBtn.disabled = true;
   dom.entryStatus.textContent = "Salvo su Google Calendar…";
   try {
-    await upsertEntry(state.activeDate, text);
+    const savedDate = state.activeDate;
+    await upsertEntry(savedDate, text);
+    await cancelTodayReminderIfNeeded(savedDate);
     showToast("Voce salvata");
     closeEntryPanel();
     state.allEntriesCache = null; // invalida cache timeline
@@ -512,7 +549,7 @@ function localDateTimeString(d) {
 
 function openReminderPanel() {
   const enabled = localStorage.getItem(LS_REMINDER_ENABLED) === "1";
-  const time = localStorage.getItem(LS_REMINDER_TIME) || "20:00";
+  const time = localStorage.getItem(LS_REMINDER_TIME) || "23:00";
   dom.reminderEnabledInput.checked = enabled;
   dom.reminderTimeInput.value = time;
   dom.reminderStatus.textContent = "";
@@ -579,7 +616,7 @@ dom.reminderOverlay.addEventListener("click", (e) => {
 
 dom.saveReminderBtn.addEventListener("click", async () => {
   const enabled = dom.reminderEnabledInput.checked;
-  const timeStr = dom.reminderTimeInput.value || "20:00";
+  const timeStr = dom.reminderTimeInput.value || "23:00";
   dom.saveReminderBtn.disabled = true;
   dom.reminderStatus.textContent = "Salvo su Google Calendar…";
   try {
