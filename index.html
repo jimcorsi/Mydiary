@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Diario</title>
+<meta name="theme-color" content="#3b3a30" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Diario" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===== SCHERMATA LOGIN ===== -->
+  <section id="loginScreen" class="screen">
+    <div class="login-card">
+      <h1>📔 Diario</h1>
+      <p class="subtitle">Le tue voci, salvate nel tuo Google Calendar personale.<br>Sincronizzato automaticamente su ogni dispositivo.</p>
+      <button id="loginBtn" class="btn btn-primary">Accedi con Google</button>
+      <p id="loginStatus" class="status-text"></p>
+    </div>
+  </section>
+
+  <!-- ===== APP PRINCIPALE ===== -->
+  <section id="mainScreen" class="screen hidden">
+
+    <header class="topbar">
+      <div class="topbar-title">📔 Diario</div>
+      <div class="topbar-actions">
+        <button id="tabCalendarBtn" class="tab-btn active">Calendario</button>
+        <button id="tabTimelineBtn" class="tab-btn">Voci</button>
+        <button id="reminderBtn" class="icon-btn" title="Promemoria giornaliero">🔔</button>
+        <button id="logoutBtn" class="icon-btn" title="Esci">⎋</button>
+      </div>
+    </header>
+
+    <!-- Vista Calendario -->
+    <div id="calendarView" class="view">
+      <div class="month-nav">
+        <button id="prevMonthBtn" class="icon-btn">‹</button>
+        <div id="monthLabel" class="month-label"></div>
+        <button id="nextMonthBtn" class="icon-btn">›</button>
+      </div>
+      <div id="weekdays" class="weekdays"></div>
+      <div id="calendarGrid" class="calendar-grid"></div>
+      <p id="calendarLoading" class="status-text hidden">Carico gli eventi…</p>
+    </div>
+
+    <!-- Vista Timeline / elenco voci -->
+    <div id="timelineView" class="view hidden">
+      <input id="searchInput" type="search" placeholder="Cerca nelle voci…" class="search-box" />
+      <div id="timelineList" class="timeline-list"></div>
+      <p id="timelineEmpty" class="status-text hidden">Nessuna voce trovata.</p>
+      <p id="timelineLoading" class="status-text hidden">Carico…</p>
+    </div>
+
+  </section>
+
+  <!-- ===== PANNELLO VOCE (modale) ===== -->
+  <div id="entryOverlay" class="overlay hidden">
+    <div class="entry-panel">
+      <div class="entry-header">
+        <button id="closeEntryBtn" class="icon-btn">✕</button>
+        <div id="entryDateLabel" class="entry-date-label"></div>
+        <button id="deleteEntryBtn" class="icon-btn hidden" title="Elimina voce">🗑</button>
+      </div>
+      <div id="motivationBox" class="motivation-box">
+        <div id="motivationImage" class="motivation-image"></div>
+        <p id="motivationQuote" class="motivation-quote"></p>
+      </div>
+      <textarea id="entryText" class="entry-textarea" placeholder="Cosa è successo oggi?"></textarea>
+      <div class="entry-footer">
+        <span id="entryCharCount" class="char-count">0 caratteri</span>
+        <button id="saveEntryBtn" class="btn btn-primary">Salva</button>
+      </div>
+      <p id="entryStatus" class="status-text"></p>
+    </div>
+  </div>
+
+  <!-- ===== PANNELLO PROMEMORIA (modale) ===== -->
+  <div id="reminderOverlay" class="overlay hidden">
+    <div class="entry-panel reminder-panel">
+      <div class="entry-header">
+        <button id="closeReminderBtn" class="icon-btn">✕</button>
+        <div class="entry-date-label">Promemoria giornaliero</div>
+        <span style="width:36px"></span>
+      </div>
+      <p class="reminder-desc">Crea un evento ricorrente sul calendario "Diario": l'app Google Calendar ti manderà una notifica ogni giorno all'orario scelto, così non dimentichi di scrivere.</p>
+      <label class="toggle-row">
+        <span>Attiva promemoria</span>
+        <input type="checkbox" id="reminderEnabledInput" />
+      </label>
+      <label class="time-row">
+        <span>Orario</span>
+        <input type="time" id="reminderTimeInput" value="20:00" />
+      </label>
+      <div class="entry-footer">
+        <span></span>
+        <button id="saveReminderBtn" class="btn btn-primary">Salva</button>
+      </div>
+      <p id="reminderStatus" class="status-text"></p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+</div>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
