@@ -11,7 +11,7 @@ const CONFIG = {
 
   // Nome del calendario dedicato che l'app creerà automaticamente
   // al primo accesso per salvare le voci di diario.
-  CALENDAR_NAME: "Diario (Journal App)",
+  CALENDAR_NAME: "Mydiary (Journal App)",
 
   // Opzionale: l'URL dove pubblichi l'app (es. https://tuo-username.github.io/diario-app/).
   // Se lo imposti, viene incluso nel promemoria giornaliero come link diretto.
