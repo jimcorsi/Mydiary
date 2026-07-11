@@ -1,6 +1,6 @@
 {
-  "name": "Diario",
-  "short_name": "Diario",
+  "name": "Mydiary",
+  "short_name": "Mydiary",
   "description": "Diario personale sincronizzato con Google Calendar",
   "start_url": "./index.html",
   "scope": "./",
