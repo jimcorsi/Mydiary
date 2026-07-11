@@ -28,13 +28,11 @@ Due cose da fare una tantum: **(1)** creare le credenziali Google, **(2)** pubbl
 
 ## 2. Pubblica i file (GitHub Pages)
 
-Repo già creato: `github.com/jimcorsi/Mydiary`, file già caricati.
+Repo già creato: `github.com/jimcorsi/Mydiary`, file già caricati, GitHub Pages già attivo.
 
-1. Nel repository: **Settings → Pages → Source: Deploy from a branch → branch `main` / cartella `/ (root)`** → Save.
-2. Dopo un minuto GitHub ti darà l'URL pubblico:
-   `https://jimcorsi.github.io/Mydiary/`
+Sito live: **`https://jimcorsi.github.io/Mydiary/`**
 
-Quello è l'indirizzo che apri da telefono e da desktop per usare l'app.
+Ogni commit su `main` fa ripartire automaticamente la build di GitHub Pages (circa 30-40 secondi) — nessun passaggio manuale extra dopo aver modificato un file.
 
 ---
 
@@ -52,18 +50,20 @@ Quello è l'indirizzo che apri da telefono e da desktop per usare l'app.
 ## 4. Usala
 
 1. Apri `https://jimcorsi.github.io/Mydiary/` dal telefono → tocca "Accedi con Google" → accedi con `jimcorsi@gmail.com`.
-2. **La prima volta Google mostrerà un avviso "App non verificata"**: è normale, è la tua app personale non ancora sottoposta a revisione Google (revisione necessaria solo per app pubbliche di terzi). Clicca "Avanzate" → "Vai su Mydiary (non sicuro)" → concedi l'accesso al Calendar. Sicuro al 100% perché l'app è tua.
-3. Su iPhone: Safari → icona condividi → **Aggiungi a Home** → diventa un'icona come un'app vera.
-   Su Android: Chrome → menu ⋮ → **Aggiungi a schermata Home**.
+2. **La prima volta Google mostrerà un avviso "App non verificata"**: è normale, è la tua app personale non ancora sottoposta a revisione Google (revisione necessaria solo per app pubbliche di terzi). Clicca **"Continue"** per procedere. Di norma compare una sola volta per dispositivo/browser.
+3. Su iPhone: Safari → icona condividi → **Aggiungi a Home**.
+   Su Android: Chrome → menu **⋮** → **Aggiungi a schermata Home** (o "Installa app" se Chrome la propone da sola).
 4. Apri lo stesso URL da un browser desktop, accedi con lo stesso account: vedrai le stesse voci — sync automatico perché sono lo stesso calendario Google.
 
 ---
 
-## Promemoria giornaliero
+## Promemoria giornaliero (intelligente)
 
-Tocca 🔔 in alto, attiva il toggle, scegli l'orario e salva: l'app crea un evento ricorrente giornaliero sul calendario "Mydiary". Riceverai la notifica push direttamente dall'app Google Calendar sul telefono, come per qualsiasi altro evento.
+Tocca 🔔 in alto, attiva il toggle, scegli l'orario (default 23:00) e salva: l'app crea un evento ricorrente giornaliero sul calendario "Mydiary". Riceverai la notifica push direttamente dall'app Google Calendar sul telefono, come per qualsiasi altro evento.
 
-Se non arriva: apri l'app Google Calendar → Impostazioni → **Mydiary (Journal App)** → verifica che le notifiche siano attive per quel calendario (di norma lo sono già di default).
+**Non è un promemoria "muto":** ogni volta che salvi la voce del giorno corrente, l'app cancella automaticamente l'occorrenza di stasera di quel promemoria (resta invece attivo per i giorni successivi). Se entro l'orario scelto non hai ancora scritto nulla, il promemoria parte normalmente. Nessuna configurazione aggiuntiva richiesta: succede da solo ogni volta che salvi.
+
+Se la notifica non arriva: apri l'app Google Calendar → Impostazioni → **Mydiary (Journal App)** → verifica che le notifiche siano attive per quel calendario (di norma lo sono già di default).
 
 ## Frase e immagine motivazionale
 
@@ -75,7 +75,7 @@ Ogni volta che apri una voce, vedi una frase originale e una piccola illustrazio
 |---|---|---|
 | Voci illimitate, sync multi-dispositivo | ✅ | ✅ (via Google Calendar) |
 | Prompt/spunto giornaliero | ✅ | ✅ (frase motivazionale) |
-| Promemoria | ✅ (SMS) | ✅ (notifica Google Calendar) |
+| Promemoria | ✅ (SMS) | ✅ (notifica Google Calendar, "intelligente") |
 | Foto/video/audio/PDF fino a 30 per voce | ✅ | ❌ non incluso |
 | Crittografia end-to-end | ✅ | ❌ — vedi nota privacy sotto |
 | Email/IFTTT/Zapier | ✅ | ❌ richiede un backend |
